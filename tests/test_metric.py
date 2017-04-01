@@ -9,7 +9,7 @@
 
 import arrow
 import time
-from fluentmetrics.metric import FluentMetric
+from fluentmetrics import FluentMetric
 import mock
 
 
@@ -102,7 +102,7 @@ def test_can_push_dimensions():
     assert len(m.dimensions) == 2
 
 
-@mock.patch('fluentmetrics.metric.FluentMetric.log')
+@mock.patch('fluentmetrics.FluentMetric.log')
 def test_can_log_count(fm_log):
     m = FluentMetric().with_namespace('Performance')
     m.count(MetricName='test', Count=2)
