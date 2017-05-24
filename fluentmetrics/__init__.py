@@ -318,7 +318,7 @@ class FluentMetric(object):
 
     def count(self, **kwargs):
         mn = kwargs.get('MetricName')
-        count = kwargs.get('Count', 1)
+        count = kwargs.get('Value', 1)
         self.log(Value=count,
                  Unit='Count',
                  MetricName=mn)
