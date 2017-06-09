@@ -9,7 +9,7 @@ def read(fname):
 setup(
   name='cloudwatch-fluent-metrics',
   packages=['fluentmetrics'],
-  version='0.1.8',
+  version='0.2.0',
   description='AWS CloudWatch Fluent Metrics',
   long_description=read('README.md'),
   author='troylar',
