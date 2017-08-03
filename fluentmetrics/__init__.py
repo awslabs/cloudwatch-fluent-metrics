@@ -296,7 +296,7 @@ class FluentMetric(object):
         mn = kwargs.get('MetricName')
         count = kwargs.get('Value', 1)
         self.log(Value=count,
-                 Unit='Microseconds',
+                 Unit='Milliseconds',
                  MetricName=mn)
         return self
 
