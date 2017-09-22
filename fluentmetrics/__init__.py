@@ -37,6 +37,7 @@ class FluentMetric(object):
         self.dimensions = []
         self.timers = {}
         self.dimension_stack = []
+        self.storage_resolution = 60
         self.with_dimension('MetricStreamId', self.stream_id)
         profile = kwargs.get('Profile')
         if profile:
@@ -44,6 +45,10 @@ class FluentMetric(object):
             self.client = session.client('cloudwatch')
         else:
             self.client = boto3.client('cloudwatch')
+
+    def with_storage_resolution(self, value):
+        self.storage_resolution = value
+        return self
 
     def with_stream_id(self, id):
         self.stream_id = id
@@ -352,7 +357,8 @@ class FluentMetric(object):
         logger.debug('log: {}'.format(md))
         self.client.put_metric_data(
                 Namespace=self.namespace,
-                MetricData=md
+                MetricData=md,
+                StorageResolution=self.storage_resolution
         )
         return self
 
