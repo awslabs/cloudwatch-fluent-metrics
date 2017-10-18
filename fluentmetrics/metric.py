@@ -357,14 +357,16 @@ class FluentMetric(object):
                     'Unit': unit
                   })
 
-        logger.debug('log: {}'.format(md))
+        self._record_metric(md)
+        return self
+
+    def _record_metric(self, metric_data):
+        logger.debug('log: {}'.format(metric_data))
         self.client.put_metric_data(
                 Namespace=self.namespace,
                 MetricData=metric_data,
                 StorageResolution=self.storage_resolution
         )
-
-        return self
 
     def get_metrics(self, **kwargs):
         mn = kwargs.get('MetricName')
