@@ -98,3 +98,6 @@ ENV/
 .ropeproject
 
 # End of https://www.gitignore.io/api/python
+
+# Vim
+*.swp
