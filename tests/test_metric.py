@@ -105,10 +105,22 @@ def test_can_push_dimensions():
 @mock.patch('fluentmetrics.FluentMetric.log')
 def test_can_log_count(fm_log):
     m = FluentMetric().with_namespace('Performance')
-    m.count(MetricName='test', Count=2)
+    m.count(MetricName='test', Value=2)
     fm_log.assert_called()
 
 
 def test_can_set_resolution():
     m = FluentMetric().with_namespace('Performance').with_storage_resolution(1)
     assert m.storage_resolution == 1
+
+@mock.patch('fluentmetrics.FluentMetric.log')
+def test_can_count_with_positional_params(fm_log):
+    m = FluentMetric().with_namespace('Performance')
+    m.count('test', 5)
+
+@mock.patch('fluentmetrics.FluentMetric.log')
+def test_can_count_with_no_value(fm_log):
+    m = FluentMetric().with_namespace('Performance')
+    m.count('test')
+
+

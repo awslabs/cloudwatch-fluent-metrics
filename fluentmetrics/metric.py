@@ -31,7 +31,7 @@ class Timer(object):
 
 
 class FluentMetric(object):
-    def __init__(self, client=None, **kwargs):
+    def __init__(self, client=None, Profile=None):
         self.stream_id = str(uuid.uuid4())
         self.dimensions = []
         self.timers = {}
@@ -42,7 +42,7 @@ class FluentMetric(object):
         if client:
             self.client = client
         else:
-            profile = kwargs.get('Profile')
+            profile = Profile
             if profile:
                 session = boto3.session.Session(profile_name=profile)
                 self.client = session.client('cloudwatch')
@@ -113,248 +113,194 @@ class FluentMetric(object):
         self.dimensions = self.dimension_stack.pop()
         return self
 
-    def elapsed(self, **kwargs):
-        tn = kwargs.get('TimerName')
-        mn = kwargs.get('MetricName')
-        if tn not in self.timers.keys():
-            logger.warn('No timer named {}'.format(tn))
+    def elapsed(self, MetricName, TimerName=None):
+        TimerName = TimerName or MetricName
+        if TimerName not in self.timers.keys():
+            logger.warn('No timer named {}'.format(TimerName))
             return
         self.log(Value=self.timers[tn].elapsed_in_ms(),
                  Unit='Milliseconds',
-                 MetricName=mn)
+                 MetricName=MetricName)
         return self
 
-    def countsec(self, **kwargs):
-        mn = kwargs.get('MetricName')
-        count = kwargs.get('Value', 1)
-        self.log(Value=count,
+    def countsec(self, MetricName, Value=1):
+        self.log(Value=Value,
                  Unit='Count/Second',
-                 MetricName=mn)
+                 MetricName=MetricName)
         return self
 
-    def tbitsec(self, **kwargs):
-        mn = kwargs.get('MetricName')
-        count = kwargs.get('Value', 1)
-        self.log(Value=count,
+    def tbitsec(self, MetricName, Value=1):
+        self.log(Value=Value,
                  Unit='Terabits/Second',
-                 MetricName=mn)
+                 MetricName=MetricName)
         return self
 
-    def gbitsec(self, **kwargs):
-        mn = kwargs.get('MetricName')
-        count = kwargs.get('Value', 1)
-        self.log(Value=count,
+    def gbitsec(self, MetricName, Value=1):
+        self.log(Value=Value,
                  Unit='Gigabits/Second',
-                 MetricName=mn)
+                 MetricName=MetricName)
         return self
 
-    def mbitsec(self, **kwargs):
-        mn = kwargs.get('MetricName')
-        count = kwargs.get('Value', 1)
-        self.log(Value=count,
+    def mbitsec(self, MetricName, Value=1):
+        self.log(Value=Value,
                  Unit='Megabits/Second',
-                 MetricName=mn)
+                 MetricName=MetricName)
         return self
 
-    def kbitsec(self, **kwargs):
-        mn = kwargs.get('MetricName')
-        count = kwargs.get('Value', 1)
-        self.log(Value=count,
+    def kbitsec(self, MetricName, Value=1):
+        self.log(Value=Value,
                  Unit='Kilobits/Second',
-                 MetricName=mn)
+                 MetricName=MetricName)
         return self
 
-    def bitsec(self, **kwargs):
-        mn = kwargs.get('MetricName')
-        count = kwargs.get('Value', 1)
-        self.log(Value=count,
+    def bitsec(self, MetricName, Value=1):
+        self.log(Value=Value,
                  Unit='Bits/Second',
-                 MetricName=mn)
+                 MetricName=MetricName)
         return self
 
-    def tbsec(self, **kwargs):
-        mn = kwargs.get('MetricName')
-        count = kwargs.get('Value', 1)
-        self.log(Value=count,
+    def tbsec(self, MetricName, Value=1):
+        self.log(Value=Value,
                  Unit='Terabytes/Second',
-                 MetricName=mn)
+                 MetricName=MetricName)
         return self
 
-    def gbsec(self, **kwargs):
-        mn = kwargs.get('MetricName')
-        count = kwargs.get('Value', 1)
-        self.log(Value=count,
+    def gbsec(self, MetricName, Value=1):
+        self.log(Value=Value,
                  Unit='Gigabytes/Second',
-                 MetricName=mn)
+                 MetricName=MetricName)
         return self
 
-    def mbsec(self, **kwargs):
-        mn = kwargs.get('MetricName')
-        count = kwargs.get('Value', 1)
-        self.log(Value=count,
+    def mbsec(self, MetricName, Value=1):
+        self.log(Value=Value,
                  Unit='Megabytes/Second',
-                 MetricName=mn)
+                 MetricName=MetricName)
         return self
 
-    def kbsec(self, **kwargs):
-        mn = kwargs.get('MetricName')
-        count = kwargs.get('Value', 1)
-        self.log(Value=count,
+    def kbsec(self, MetricName, Value=1):
+        self.log(Value=Value,
                  Unit='Kilobytes/Second',
-                 MetricName=mn)
+                 MetricName=MetricName)
         return self
 
-    def bsec(self, **kwargs):
-        mn = kwargs.get('MetricName')
-        count = kwargs.get('Value', 1)
-        self.log(Value=count,
+    def bsec(self, MetricName, Value=1):
+        self.log(Value=Value,
                  Unit='Bytes/Second',
-                 MetricName=mn)
+                 MetricName=MetricName)
         return self
 
-    def pct(self, **kwargs):
-        mn = kwargs.get('MetricName')
-        count = kwargs.get('Value', 1)
-        self.log(Value=count,
+    def pct(self, MetricName, Value=1):
+        self.log(Value=Value,
                  Unit='Percent',
-                 MetricName=mn)
+                 MetricName=MetricName)
         return self
 
-    def tbits(self, **kwargs):
-        mn = kwargs.get('MetricName')
-        count = kwargs.get('Value', 1)
-        self.log(Value=count,
+    def tbits(self, MetricName, Value=1):
+        self.log(Value=Value,
                  Unit='Terabits',
-                 MetricName=mn)
+                 MetricName=MetricName)
         return self
 
-    def gbits(self, **kwargs):
-        mn = kwargs.get('MetricName')
-        count = kwargs.get('Value', 1)
-        self.log(Value=count,
+    def gbits(self, MetricName, Value=1):
+        self.log(Value=Value,
                  Unit='Gigabits',
-                 MetricName=mn)
+                 MetricName=MetricName)
         return self
 
-    def mbits(self, **kwargs):
-        mn = kwargs.get('MetricName')
-        count = kwargs.get('Value', 1)
-        self.log(Value=count,
+    def mbits(self, MetricName, Value=1):
+        self.log(Value=Value,
                  Unit='Megabits',
-                 MetricName=mn)
+                 MetricName=MetricName)
         return self
 
-    def kbits(self, **kwargs):
-        mn = kwargs.get('MetricName')
-        count = kwargs.get('Value', 1)
-        self.log(Value=count,
+    def kbits(self, MetricName, Value=1):
+        self.log(Value=Value,
                  Unit='Kilobits',
-                 MetricName=mn)
+                 MetricName=MetricName)
         return self
 
-    def bits(self, **kwargs):
-        mn = kwargs.get('MetricName')
-        count = kwargs.get('Value', 1)
-        self.log(Value=count,
+    def bits(self, MetricName, Value=1):
+        self.log(Value=Value,
                  Unit='Bits',
-                 MetricName=mn)
+                 MetricName=MetricName)
         return self
 
-    def tb(self, **kwargs):
-        mn = kwargs.get('MetricName')
-        count = kwargs.get('Value', 1)
-        self.log(Value=count,
+    def tb(self, MetricName, Value=1):
+        self.log(Value=Value,
                  Unit='Terabytes',
-                 MetricName=mn)
+                 MetricName=MetricName)
         return self
 
-    def gb(self, **kwargs):
-        mn = kwargs.get('MetricName')
-        count = kwargs.get('Value', 1)
-        self.log(Value=count,
+    def gb(self, MetricName, Value=1):
+        self.log(Value=Value,
                  Unit='Gigabytes',
-                 MetricName=mn)
+                 MetricName=MetricName)
         return self
 
-    def mb(self, **kwargs):
-        mn = kwargs.get('MetricName')
-        count = kwargs.get('Value', 1)
-        self.log(Value=count,
+    def mb(self, MetricName, Value=1):
+        self.log(Value=Value,
                  Unit='Megabytes',
-                 MetricName=mn)
+                 MetricName=MetricName)
         return self
 
-    def kb(self, **kwargs):
-        mn = kwargs.get('MetricName')
-        count = kwargs.get('Value', 1)
-        self.log(Value=count,
+    def kb(self, MetricName, Value=1):
+        self.log(Value=Value,
                  Unit='Kilobytes',
-                 MetricName=mn)
+                 MetricName=MetricName)
         return self
 
-    def bytes(self, **kwargs):
-        mn = kwargs.get('MetricName')
-        count = kwargs.get('Value', 1)
-        self.log(Value=count,
+    def bytes(self, MetricName, Value=1):
+        self.log(Value=Value,
                  Unit='Bytes',
-                 MetricName=mn)
+                 MetricName=MetricName)
         return self
 
-    def milliseconds(self, **kwargs):
-        mn = kwargs.get('MetricName')
-        count = kwargs.get('Value', 1)
-        self.log(Value=count,
+    def milliseconds(self, MetricName, Value=1):
+        self.log(Value=Value,
                  Unit='Milliseconds',
-                 MetricName=mn)
+                 MetricName=MetricName)
         return self
 
-    def microseconds(self, **kwargs):
-        mn = kwargs.get('MetricName')
-        count = kwargs.get('Value', 1)
-        self.log(Value=count,
+    def microseconds(self, MetricName, Value=1):
+        self.log(Value=Value,
                  Unit='Microseconds',
-                 MetricName=mn)
+                 MetricName=MetricName)
         return self
 
-    def seconds(self, **kwargs):
-        mn = kwargs.get('MetricName')
-        count = kwargs.get('Value', 1)
-        self.log(Value=count,
+    def seconds(self, MetricName, Value=1):
+        self.log(Value=Value,
                  Unit='Seconds',
-                 MetricName=mn)
+                 MetricName=MetricName)
         return self
 
-    def count(self, **kwargs):
-        mn = kwargs.get('MetricName')
-        count = kwargs.get('Value', 1)
-        self.log(Value=count,
+    def count(self, MetricName, Value=1):
+        self.log(Value=Value,
                  Unit='Count',
-                 MetricName=mn)
+                 MetricName=MetricName)
         return self
 
-    def log(self, **kwargs):
-        ts = kwargs.get('TimeStamp', arrow.utcnow()
-                        .format('YYYY-MM-DD HH:mm:ss ZZ'))
-        value = float(kwargs.get('Value'))
-        unit = kwargs.get('Unit')
+    def log(self, MetricName, Value, Unit, TimeStamp=None):
+        ts = TimeStamp or arrow.utcnow()
+        ts = ts.format('YYYY-MM-DD HH:mm:ss ZZ')
+        value = float(Value)
         md = []
         for dimension in self.dimensions:
             md.append({
-                        'MetricName': kwargs.get('MetricName'),
+                        'MetricName': MetricName,
                         'Dimensions': [dimension],
                         'Timestamp': ts,
                         'Value': value,
-                        'Unit': unit,
+                        'Unit': Unit,
                         'StorageResolution': self.storage_resolution,
                     }
             )
 
         md.append({
-                    'MetricName': kwargs.get('MetricName'),
+                    'MetricName': MetricName,
                     'Dimensions': self.dimensions,
                     'Timestamp': ts,
                     'Value': value,
-                    'Unit': unit,
+                    'Unit': Unit,
                     'StorageResolution': self.storage_resolution,
                   })
 
@@ -364,11 +310,10 @@ class FluentMetric(object):
     def _record_metric(self, metric_data):
         logger.debug('log: {}'.format(metric_data))
         self.client.put_metric_data(
-                Namespace=self.namespace,
-                MetricData=metric_data,
+            Namespace=self.namespace,
+            MetricData=metric_data,
         )
 
-    def get_metrics(self, **kwargs):
-        mn = kwargs.get('MetricName')
+    def get_metrics(self, MetricName):
         return self.client.list_metrics(Namespace=self.namespace,
-                                        MetricName=mn)['Metrics']
+                                        MetricName=MetricName)['Metrics']
