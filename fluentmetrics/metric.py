@@ -17,8 +17,10 @@ logger.addHandler(logging.NullHandler())
 
 
 class Timer(object):
-    def __init__(self):
+    def __init__(self, metric, timer_name):
         self.start = arrow.utcnow()
+        self.metric = metric
+        self.timer_name = timer_name
 
     def elapsed(self):
         return arrow.utcnow() - self.start
@@ -28,6 +30,25 @@ class Timer(object):
 
     def elapsed_in_seconds(self):
         return self.elapsed().total_seconds()
+
+    def record(self, metric_name=None):
+        metric_name = metric_name or self.timer_name
+        self.metric.milliseconds(metric_name, self.elapsed_in_ms())
+
+    # enter and exit are for `with` block support
+    def __enter__(self):
+        self.start = arrow.utcnow()
+        return self
+
+    def __exit__(self, type, vaue, traceback):
+        self.record()
+
+    # call is for use as a decorator
+    def __call__(self, func):
+        def wrapper(*args, **kwargs):
+            with Timer(self.metric, self.timer_name):
+                return func(*args, **kwargs)
+        return wrapper
 
 
 class FluentMetric(object):
@@ -88,8 +109,20 @@ class FluentMetric(object):
         else:
             return None
 
+    def timer(self, metric_name):
+        '''Starts a timer and returns it. Typical usage is in a with block:
+
+            with metric.timer('PossiblySlowThing'):
+              run_forest_run()
+
+        Note that this isn't compatible with `metric.elapsed('name')`. This 
+        method doesn't store the timer for later retrieval.
+        '''
+        timer = Timer(self, metric_name)
+        return timer
+
     def with_timer(self, timer):
-        self.timers[timer] = Timer()
+        self.timers[timer] = Timer(self, timer)
         return self
 
     def without_timer(self, timer):

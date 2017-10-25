@@ -108,7 +108,6 @@ def test_can_log_count(fm_log):
     m.count(MetricName='test', Value=2)
     fm_log.assert_called()
 
-
 def test_can_set_resolution():
     m = FluentMetric().with_namespace('Performance').with_storage_resolution(1)
     assert m.storage_resolution == 1
@@ -117,10 +116,35 @@ def test_can_set_resolution():
 def test_can_count_with_positional_params(fm_log):
     m = FluentMetric().with_namespace('Performance')
     m.count('test', 5)
+    fm_log.assert_called()
 
 @mock.patch('fluentmetrics.FluentMetric.log')
 def test_can_count_with_no_value(fm_log):
     m = FluentMetric().with_namespace('Performance')
     m.count('test')
+    fm_log.assert_called()
+
+@mock.patch('fluentmetrics.FluentMetric.log')
+def test_with_timer(fm_log):
+    m = FluentMetric().with_namespace('Performance')
+    with m.timer('test'):
+        time.sleep(0.02) # 20 ms is long enough to register, short enough not to notice
+    fm_log.assert_called()
+
+@mock.patch('fluentmetrics.FluentMetric.log')
+def test_with_timer(fm_log):
+    m = FluentMetric().with_namespace('Performance')
+    calls = []
+    @m.timer('PotentiallySlowThing')
+    def run_forest_run(*args, **kwargs):
+        calls.append((args, kwargs))
+        time.sleep(0.02) # 20 ms is long enough to register, short enough not to notice
+        return 'foo'
+
+    assert(not fm_log.called)
+    ret = run_forest_run(1, 2, 3, foo=42, bar=84)
+    fm_log.assert_called()
+    assert(calls[0] == ((1, 2, 3), {'foo': 42, 'bar': 84}))
+    assert(ret == 'foo')
 
 
