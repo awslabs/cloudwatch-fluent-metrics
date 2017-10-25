@@ -52,7 +52,7 @@ In this example, we're logging two metrics called `StartupTime` and `StuffTime` 
 m = FluentMetric().with_namespace('Performance')
 m.log(MetricName='StartupTime', Value=27, Unit='Seconds')
 do_stuff()
-m.log(MetricName='StuffTime', Value=12000, Unit='Milliseconds')
+m.log('StuffTime', 12000, 'Milliseconds')
 ```
 #### Values
 Obviously we need to log a value with each metric. This needs to be a number since we convert this value to a `float` before sending to CloudWatch. 
@@ -64,7 +64,7 @@ In this example, we're logging metric at one-second resolution:
 ```sh
 m = FluentMetric().with_namespace('Application/MyApp')
                   .with_storage_resolution(1)
-m.log(MetricName='Transactions/Sec', Value=trans_count, Unit='Count/Sec')
+m.log('Transactions/Sec', trans_count, 'Count/Sec')
 ```sh
 #### Dimensions
 A dimension defines how you want to slice and dice the metric. These are simply name-value pairs and you can define up to 10 per metric. Click [here](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/publishingMetrics.html#usingDimensions) for more details on using dimensions.
@@ -79,9 +79,9 @@ m = FluentMetric().with_namespace('Performance/EC2') \
                   .with_dimension('os', 'linux'). \
                   .with_dimension('instance-id', 'i-123456')
 boot_time = start_instance()
-m.log(MetricName='BootTime', Value=boot_time, Unit='Milliseconds')
+m.log('BootTime', boot_time, 'Milliseconds')
 restart_time = restart_instance()
-m.log(MetricName='RestartTime', Value=restart_time, Unit='Milliseconds')
+m.log('RestartTime', Value=restart_time, Unit='Milliseconds')
 ```
 #### Units
 CloudWatch has built-in logic to provide meaning to the metric values. We're not just logging a value--we're looking a value of some unit. By defining the unit type, CloudWatch will know how to properly present, aggregate and compare that value with other values. For example, if you submit a value with unit `Milliseconds`, then it can properly aggregate it up to seconds, minutes or hours. This is a list of the most current valid list of units. A more up-to-date list should be available [here](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_MetricDatum.html) under the **Unit** section,.
@@ -99,32 +99,32 @@ If you don't want to type out the individual unit name, there are shortcut metho
 m = FluentMetric().with_namespace('Performance/EC2') \
                   .with_dimension('os', 'linux'). \
                   .with_dimension('instance-id', 'i-123456')
-m.seconds(MetricName='CompletionInSeconds', Value='1000')
-m.microseconds(MetricName='CompletionInMicroseconds', Value='1000')
-m.milliseconds(MetricName='CompletionInMilliseconds', Value='1000')
-m.bytes(MetricName='SizeInBytes', Value='1000')
-m.kb(MetricName='SizeInKb', Value='1000')
-m.mb(MetricName='SizeInMb', Value='1000')
-m.gb(MetricName='SizeInGb', Value='1000')
-m.tb(MetricName='SizeInTb', Value='1000')
-m.bits(MetricName='SizeInBits', Value='1000')
-m.kbits(MetricName='SizeInKilobits', Value='1000')
-m.mbits(MetricName='SizeInMegabits', Value='1000')
-m.gbits(MetricName='SizeInGigabits', Value='1000')
-m.tbits(MetricName='SizeInTerabits', Value='1000')
-m.pct(MetricName='Percent', Value='20')
-m.count(MetricName='ItemCount', Value='20')
-m.bsec(MetricName='BandwidthBytesPerSecond', Value='1000')
-m.kbsec(MetricName='BandwidthKilobytesPerSecond', Value='1000')
-m.mbsec(MetricName='BandwidthMegabytesPerSecond', Value='1000')
-m.gbsec(MetricName='BandwidthGigabytesPerSecond', Value='1000')
-m.tbsec(MetricName='BandwidthTerabytesPerSecond', Value='1000')
-m.bitsec(MetricName='BandwidthBitsPerSecond', Value='1000')
-m.kbitsec(MetricName='BandwidthKilobitsPerSecond', Value='1000')
-m.mbitsec(MetricName='BandwidthMegabitsPerSecond', Value='1000')
-m.gbitsec(MetricName='BandwidthGigabitsPerSecond', Value='1000')
-m.tbitsec(MetricName='BandwidthTerabitsPerSecond', Value='1000')
-m.countsec(MetricName='ItemCountsPerSecond', Value='1000')
+m.seconds('CompletionInSeconds', 1000)
+m.microseconds('CompletionInMicroseconds', 1000)
+m.milliseconds('CompletionInMilliseconds', 1000)
+m.bytes('SizeInBytes', 1000)
+m.kb('SizeInKb', 1000)
+m.mb('SizeInMb', 1000)
+m.gb('SizeInGb', 1000)
+m.tb('SizeInTb', 1000)
+m.bits('SizeInBits', 1000)
+m.kbits('SizeInKilobits', 1000)
+m.mbits('SizeInMegabits', 1000)
+m.gbits('SizeInGigabits', 1000)
+m.tbits('SizeInTerabits', 1000)
+m.pct('Percent', 20)
+m.count('ItemCount', 20)
+m.bsec('BandwidthBytesPerSecond', 1000)
+m.kbsec('BandwidthKilobytesPerSecond', 1000)
+m.mbsec('BandwidthMegabytesPerSecond', 1000)
+m.gbsec('BandwidthGigabytesPerSecond', 1000)
+m.tbsec('BandwidthTerabytesPerSecond', 1000)
+m.bitsec('BandwidthBitsPerSecond', 1000)
+m.kbitsec('BandwidthKilobitsPerSecond', 1000)
+m.mbitsec('BandwidthMegabitsPerSecond', 1000)
+m.gbitsec('BandwidthGigabitsPerSecond', 1000)
+m.tbitsec('BandwidthTerabitsPerSecond', 1000)
+m.countsec('ItemCountsPerSecond', 1000)
 ```
 #### Timers
 One of the most common uses of logging is measuring performance. FluentMetrics allows you to activate multiple built-in timers by name and log the elapsed time in a single line of code. **NOTE:** The elapsed time value is automatically stored as unit `Milliseconds`.
@@ -134,13 +134,39 @@ In this example, we're starting timers `workflow` and `job1` at the same time. T
 m = FluentMetric()
 m.with_timer('workflow').with_timer('job1')
 do_job1()
-m.elapsed(MetricName='Job1CompletionTime', TimerName='job1')
+m.elapsed('Job1CompletionTime', 'job1')
 m.with_timer('job2')
 do_job2()
-m.elapsed(MetricName='Job2CompletionTime', TimerName='job2')
+m.elapsed('Job2CompletionTime', 'job2')
 finish_workflow()
-m.elapsed(MetricName='WorkflowCompletionTime', TimerName='workflow')
+m.elapsed('WorkflowCompletionTime', 'workflow')
 ```
+
+Python's `with` blocks are an even more reliable way to time code blocks:
+
+```python
+m = FluentMetric()
+
+with m.timer('PotentiallySlow'):
+    run_forest_run()
+```
+
+This times how long it takes `run_forest_run()` to execute and records the result
+in milliseconds.
+
+Alternately, you can use Python's decorator syntax:
+
+```python
+def task():
+    m = FluentMetric()
+
+    @m.timer('PotentiallySlow')
+    def run_forest_run():
+       jog_across_america() 
+
+    # it's not timed until the method is called
+    run_forest_run()
+
 #### Metric Stream ID
 A key feature of `FluentMetrics` is the metric stream ID. This ID will be added as a dimension and logged with every metric. The benefit of this dimension is to provide a distinct stream of metrics for an end-to-end operation. When you create a new instance of `FluentMetric`, you can either pass in your own value or `FluentMetrics` will generate a GUID. In CloudWatch, you can then see all of the metrics for a particular stream ID in chronological order. A metric stream can be a job, or a server or any way that you want to unique group a contiguous stream of metrics.
 *Example*:
@@ -158,7 +184,7 @@ This is the minimal amount of work you need to log--create a `FluentMetric` with
 ```sh
 from fluentmetrics import FluentMetric
 m = FluentMetric().with_namespace('Stats')
-m.log(MetricName='ActiveServerCount', Value='100', Unit='Count')
+m.log('ActiveServerCount', '100', 'Count')
 ```
 #### #2: Logging Multiple Metrics to the Same Namespace
 If you are logging multiple metrics to the same namespace, this is a great use case for `FluentMetrics`. You only need to create one instance of `FluentMetric` and specify a different metric name when you call `log`. 
@@ -166,10 +192,10 @@ If you are logging multiple metrics to the same namespace, this is a great use c
 ```sh
 from fluentmetrics import FluentMetric   
 m = FluentMetric().with_namespace('Stats')
-m.log(MetricName='ActiveServerCount', Value='10', Unit='Count') \
- .log(MetricName='StoppedServerCount', Value='20', Unit='Count') \
- .log(MetricName='ActiveLinuxCount', Value='50', Unit='Count') \
- .log(MetricName='ActiveWindowsCount', Value='50', Unit='Count')
+m.log('ActiveServerCount', '10', 'Count') \
+ .log('StoppedServerCount', '20', 'Count') \
+ .log('ActiveLinuxCount', '50', 'Count') \
+ .log('ActiveWindowsCount', '50', 'Count')
 ````
 #### #3: Logging Counts
 In the previous example, we logged a metric and identified the unit `Count`. Instead of specifying the unit, you can specify the type of object
