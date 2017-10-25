@@ -344,8 +344,8 @@ class FluentMetric(object):
                         'Dimensions': [dimension],
                         'Timestamp': ts,
                         'Value': value,
-                        'Unit': unit
-
+                        'Unit': unit,
+                        'StorageResolution': self.storage_resolution,
                     }
             )
 
@@ -354,7 +354,8 @@ class FluentMetric(object):
                     'Dimensions': self.dimensions,
                     'Timestamp': ts,
                     'Value': value,
-                    'Unit': unit
+                    'Unit': unit,
+                    'StorageResolution': self.storage_resolution,
                   })
 
         self._record_metric(md)
@@ -365,7 +366,6 @@ class FluentMetric(object):
         self.client.put_metric_data(
                 Namespace=self.namespace,
                 MetricData=metric_data,
-                StorageResolution=self.storage_resolution
         )
 
     def get_metrics(self, **kwargs):
