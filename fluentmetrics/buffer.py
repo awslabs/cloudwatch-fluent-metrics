@@ -56,7 +56,7 @@ class BufferedFluentMetric(FluentMetric):
         delaying data.
         '''
         for namespace, buffer in self.buffers.items():
-            full_pages = len(buffer) / PAGE_SIZE
+            full_pages = len(buffer) // PAGE_SIZE
             for i in range(full_pages):
                 start = i * PAGE_SIZE
                 end = (i + 1) * PAGE_SIZE
