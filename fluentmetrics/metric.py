@@ -339,15 +339,16 @@ class FluentMetric(object):
         unit = kwargs.get('Unit')
         md = []
         for dimension in self.dimensions:
-            md.append({
-                'MetricName': kwargs.get('MetricName'),
-                'Dimensions': [dimension],
-                'Timestamp': ts,
-                'Value': value,
-                'Unit': unit,
-                'StorageResolution': self.storage_resolution,
-            }
-            )
+            if dimension['Name'] != 'MetricStreamId':
+                md.append({
+                            'MetricName': kwargs.get('MetricName'),
+                            'Dimensions': [dimension],
+                            'Timestamp': ts,
+                            'Value': value,
+                            'Unit': unit,
+                            'StorageResolution': self.storage_resolution,
+                        }
+                )
 
         md.append({
             'MetricName': kwargs.get('MetricName'),
