@@ -338,8 +338,8 @@ class FluentMetric(object):
         value = float(kwargs.get('Value'))
         unit = kwargs.get('Unit')
         md = []
-        for dimension in self.dimensions:
-            if dimension['Name'] != 'MetricStreamId':
+        if len(self.dimensions) > 1:
+            for dimension in self.dimensions:
                 md.append({
                             'MetricName': kwargs.get('MetricName'),
                             'Dimensions': [dimension],
