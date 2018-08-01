@@ -16,7 +16,7 @@ setup(
   author='troylar',
   author_email='troylars@amazon.com',
   url='https://github.com/awslabs/cloudwatch-fluent-metrics',
-  download_url='https://github.com/awslabs/cloudwatch-fluent-metrics/cloudwatch-fluent-metrics-v0.1.tgz',
+  download_url='https://github.com/awslabs/cloudwatch-fluent-metrics/cloudwatch-fluent-metrics-v0.1.tgz',  # noqa: E501
   keywords=['metrics', 'logging', 'aws', 'cloudwatch'],
   license="BSD",
   classifiers=[

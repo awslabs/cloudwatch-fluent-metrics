@@ -16,8 +16,10 @@ import arrow
 import time
 from fluentmetrics import FluentMetric
 import mock
+from moto import mock_cloudwatch
 
 
+@mock_cloudwatch
 def test_setting_namespace_sets_namespace():
     test_value = 'test_namespace'
     m = FluentMetric()

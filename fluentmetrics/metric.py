@@ -340,23 +340,23 @@ class FluentMetric(object):
         md = []
         for dimension in self.dimensions:
             md.append({
-                        'MetricName': kwargs.get('MetricName'),
-                        'Dimensions': [dimension],
-                        'Timestamp': ts,
-                        'Value': value,
-                        'Unit': unit,
-                        'StorageResolution': self.storage_resolution,
-                    }
+                'MetricName': kwargs.get('MetricName'),
+                'Dimensions': [dimension],
+                'Timestamp': ts,
+                'Value': value,
+                'Unit': unit,
+                'StorageResolution': self.storage_resolution,
+            }
             )
 
         md.append({
-                    'MetricName': kwargs.get('MetricName'),
-                    'Dimensions': self.dimensions,
-                    'Timestamp': ts,
-                    'Value': value,
-                    'Unit': unit,
-                    'StorageResolution': self.storage_resolution,
-                  })
+            'MetricName': kwargs.get('MetricName'),
+            'Dimensions': self.dimensions,
+            'Timestamp': ts,
+            'Value': value,
+            'Unit': unit,
+            'StorageResolution': self.storage_resolution,
+        })
 
         self._record_metric(md)
         return self
@@ -364,8 +364,8 @@ class FluentMetric(object):
     def _record_metric(self, metric_data):
         logger.debug('log: {}'.format(metric_data))
         self.client.put_metric_data(
-                Namespace=self.namespace,
-                MetricData=metric_data,
+            Namespace=self.namespace,
+            MetricData=metric_data,
         )
 
     def get_metrics(self, **kwargs):
