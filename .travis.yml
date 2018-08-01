@@ -1,4 +1,7 @@
 language: python
+env:
+  global:
+  - AWS_DEFAULT_REGION: us-east-1
 
 python:
   - "2.7"
