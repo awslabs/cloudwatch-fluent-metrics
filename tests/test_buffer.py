@@ -1,10 +1,12 @@
-import mock, boto3, logging, unittest
+import logging
+import mock
+import unittest
 from moto import mock_cloudwatch
-
-from fluentmetrics import BufferedFluentMetric, buffer
+from fluentmetrics import BufferedFluentMetric
 
 log = logging.getLogger('metric')
 Metric = BufferedFluentMetric
+
 
 def with_metric(*dimensions):
     def decorator(func):
@@ -14,7 +16,7 @@ def with_metric(*dimensions):
             cw = Dummy()
             m = Metric(cw)
             m.with_namespace('namespace')
-            m.without_dimension('MetricStreamId') # probably should remove it entirely as a default
+            m.without_dimension('MetricStreamId')  # probably should remove it entirely as a default
             for name, value in dimensions:
                 m.with_dimension(name, value)
             kwargs['m'] = m
@@ -22,7 +24,8 @@ def with_metric(*dimensions):
             func(*args, **kwargs)
         return wrapper
     return decorator
-    
+
+
 class TestBuffer(unittest.TestCase):
     @with_metric()
     def test_autoflush_exactly_one_page(self, m, cw):
@@ -63,7 +66,7 @@ class TestBuffer(unittest.TestCase):
         # this should send 9 records for each count
         for dim in range(9):
             name = 'dim{}'.format(dim + 1)
-            m.with_dimension(dim, dim)
+            m.with_dimension(name, dim)
         m.count(MetricName='counter', Value=1)
 
         assert len(cw.calls) == 3
