@@ -84,7 +84,7 @@ restart_time = restart_instance()
 m.log(MetricName='RestartTime', Value=restart_time, Unit='Milliseconds')
 ```
 #### Units
-CloudWatch has built-in logic to provide meaning to the metric values. We're not just logging a value--we're looking a value of some unit. By defining the unit type, CloudWatch will know how to properly present, aggregate and compare that value with other values. For example, if you submit a value with unit `Milliseconds`, then it can properly aggregate it up to seconds, minutes or hours. This is a list of the most current valid list of units. A more up-to-date list should be available [here](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_MetricDatum.html) under the **Unit** section,.
+CloudWatch has built-in logic to provide meaning to the metric values. We're not just logging a value--we're logging a value of some unit. By defining the unit type, CloudWatch will know how to properly present, aggregate and compare that value with other values. For example, if you submit a value with unit `Milliseconds`, then it can properly aggregate it up to seconds, minutes or hours. This is a list of the most current valid list of units. A more up-to-date list should be available [here](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_MetricDatum.html) under the **Unit** section,.
 ```sh
 "Seconds"|"Microseconds"|"Milliseconds"|"Bytes"|"Kilobytes"|"Megabytes"|
 "Gigabytes"|"Terabytes"|"Bits"|"Kilobits"|"Megabits"|"Gigabits"|"Terabits"|
