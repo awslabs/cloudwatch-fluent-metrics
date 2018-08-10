@@ -22,6 +22,7 @@ def with_metric(*dimensions):
             kwargs['m'] = m
             kwargs['cw'] = cw
             func(*args, **kwargs)
+        wrapper.__name__ = func.__name__
         return wrapper
     return decorator
 
