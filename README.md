@@ -1,5 +1,5 @@
 # FluentMetrics
-##**IMPORTANT: When using unique stream IDs, you have the potential to create a large number of metrics. Please make sure to review the [current AWS CloudWatch Custom Metrics pricing]( https://aws.amazon.com/cloudwatch/pricing/) before proceeding.**###
+## **IMPORTANT: When using unique stream IDs, you have the potential to create a large number of metrics. Please make sure to review the [current AWS CloudWatch Custom Metrics pricing]( https://aws.amazon.com/cloudwatch/pricing/) before proceeding.**###
 ## Overview
 `FluentMetrics` is an easy-to-use Python module that makes logging CloudWatch custom metrics a breeze. The goal is to provide a framework for logging detailed metrics with a minimal footprint. When you look at your code logic, you want to see your actual code logic, not line after line of metrics logging.  `FluentMetrics` lets you maximize your metrics footprint while minimizing your metrics code footprint.
 ## Installation
