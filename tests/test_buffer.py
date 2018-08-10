@@ -28,6 +28,12 @@ def with_metric(*dimensions):
 
 class TestBuffer(unittest.TestCase):
     @with_metric()
+    def test_noflush_partial_page(self, m, cw):
+        m.count(MetricName='counter', Value=1)
+        m.count(MetricName='counter', Value=2)
+        assert len(cw.calls) == 0
+
+    @with_metric()
     def test_autoflush_exactly_one_page(self, m, cw):
         m.count(MetricName='counter', Value=1)
         m.count(MetricName='counter', Value=2)
