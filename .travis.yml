@@ -2,21 +2,26 @@ language: python
 env:
   global:
   - AWS_DEFAULT_REGION: us-east-1
-
 python:
-  - "2.7"
-  - "3.4"
-  - "3.5"
-  - "3.6"
-
+- '2.7'
+- '3.5'
+- '3.6'
 install:
-  - pip install -r requirements-dev.txt
-  - pip install tox-travis
-
+- pip install -r requirements-dev.txt
+- pip install tox-travis
 script:
-  - tox
-  - coverage run --source fluentmetrics -m pytest
-  - coverage report -m
-
+- tox
+- coverage run --source fluentmetrics -m pytest
+- coverage report -m
 after_success:
-  - coveralls
+- coveralls
+deploy:
+  provider: pypi
+  user: troylar
+  password:
+    secure: Blvfca9f0HNMCcCqEYcYCW945vF3F/I99BgYqb1U3KfqBZyrO7m8ploB9mhLQJWPjsCkYQs9GSfVlZ2MRUTJi8Gn9tIihsikHpV/VsgJOHg3kRuvJ5Ozk9JqZZKBIjFCeJ/RT5HJ0LxfKTPF5X/Nr9Qms7Qx2E9nvq3HO+LjvRj/jW0RE2NheIpbY6mnhV7/SybRhZrQLXItNxnn/wi/oVLPjK4YWPEMTU3j7YAmxX1XaGDhYyi9ah2Ic06cl7Slkp+FtX5CbRNMy+n5Lbb/cXuMIOcrJyeLPbs/s9B0Vex/Mfpp4PSXBFQ3C576Is3xYLa1uCG23CVdfpZERNvwzGZ8VTedCNy2b96DgB+ZQqmlF+NA/Y4B6M2FpTxYAz/xoq5zhb7qAyRWj+nc2/i4KvI5l6w86c/G+yubptm6VentmpCitVchSxTs4/4jmN6PMIHbQXa9qkDv6ivBYpqJHh6iY4TKseYK9WHlCON2FXCTSSoZP24k9Mbz3HOjTg0upuCtmcWmybpVwwwP9pSbhMUhpsnWqZPgNHo0NsGAKTenEg6/1FDAJ4O5PvRVSxvFwBMtqa3zLHK9O3SkMULsf81LbM8MtwQ+vNFpsTgmWc0KkKC5dluKxsWnU9/g4Oys8pR9mrEGKPvV9SQD2CurBMeHqL3zfesTkLBMf14+hhI=
+  on:
+    tags: true
+    branch: master
+    distributions: sdist bdist_wheel
+    repo: awslabs/cloudwatch-fluent-metrics
