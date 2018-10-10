@@ -363,10 +363,11 @@ class FluentMetric(object):
 
     def _record_metric(self, metric_data):
         logger.debug('log: {}'.format(metric_data))
-        self.client.put_metric_data(
-            Namespace=self.namespace,
-            MetricData=metric_data,
-        )
+        if metric_data:
+            self.client.put_metric_data(
+                Namespace=self.namespace,
+                MetricData=metric_data,
+            )
 
     def get_metrics(self, **kwargs):
         mn = kwargs.get('MetricName')
