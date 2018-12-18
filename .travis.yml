@@ -8,12 +8,13 @@ python:
   - "3.6"
   - "3.7"
 
+before_install:
+  - export BOTO_CONFIG=/dev/null
 install:
   - pip install -r requirements-dev.txt
   - pip install tox-travis
 
 script:
-  - export BOTO_CONFIG=/dev/null
   - tox
   - coverage run --source fluentmetrics -m pytest
   - coverage report -m
