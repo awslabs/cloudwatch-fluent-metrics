@@ -2,6 +2,8 @@ arrow==0.12.1
 boto3==1.9.67
 coverage==4.5.2
 coveralls==1.5.1
+flake8==3.6.0
 mock==2.0.0
 moto==1.3.3
 pytest==4.0.2
+tox==3.6.0
