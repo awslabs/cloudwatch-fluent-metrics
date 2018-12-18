@@ -1,4 +1,5 @@
 arrow==0.12.1
+boto==2.45.0
 boto3==1.9.67
 coverage==4.5.2
 coveralls==1.5.1
