@@ -11,6 +11,7 @@ python:
 install:
   - pip install -r requirements-dev.txt
   - pip install tox-travis
+  - rm -f /etc/boto.cfg
 
 script:
   - tox
