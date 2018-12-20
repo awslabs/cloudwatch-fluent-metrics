@@ -11,11 +11,6 @@ python:
 matrix:
   include:
     - python: 3.7
-      env: TEST_SERVER_MODE=false
-      dist: xenial
-      sudo: true
-    - python: 3.7
-      env: TEST_SERVER_MODE=true
       dist: xenial
       sudo: true
 
