@@ -218,3 +218,7 @@ def end_request(response):
 	# Finally, ensure that all metrics end up in CloudWatch before this request finally ends.
 	g.metrics.flush()
 ```
+
+## License
+
+This library is licensed under the Apache 2.0 License. 
