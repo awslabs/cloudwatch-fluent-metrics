@@ -13,6 +13,7 @@ setup(
   version='0.5.0',
   description='AWS CloudWatch Fluent Metrics',
   long_description=read('README.md'),
+  long_description_content_type='text/markdown',
   author='troylar',
   author_email='troylars@amazon.com',
   url='https://github.com/awslabs/cloudwatch-fluent-metrics',
