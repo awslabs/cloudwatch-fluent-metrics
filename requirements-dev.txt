@@ -28,7 +28,7 @@ idna==2.8
 importlib-metadata==0.19
 Jinja2==2.10.1
 jmespath==0.9.4
-jsondiff==1.2.0
+jsondiff==1.1.2
 jsonpatch==1.24
 jsonpickle==1.2
 jsonpointer==2.0
