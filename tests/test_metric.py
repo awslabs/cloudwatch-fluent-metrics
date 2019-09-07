@@ -109,3 +109,9 @@ def test_can_log_count(fm_log):
 def test_can_set_resolution():
     m = FluentMetric().with_namespace('Performance').with_storage_resolution(1)
     assert m.storage_resolution == 1
+
+
+def test_can_disable_stream_id():
+    m = FluentMetric(UseStreamId=False).with_namespace('Performance')
+    assert len(m.dimensions) == 0
+
