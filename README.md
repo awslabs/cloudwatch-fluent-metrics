@@ -64,7 +64,7 @@ In this example, we're logging metric at one-second resolution:
 m = FluentMetric().with_namespace('Application/MyApp')
                   .with_storage_resolution(1)
 m.log(MetricName='Transactions/Sec', Value=trans_count, Unit='Count/Sec')
-```sh
+```
 #### Dimensions
 A dimension defines how you want to slice and dice the metric. These are simply name-value pairs and you can define up to 10 per metric. Click [here](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/publishingMetrics.html#usingDimensions) for more details on using dimensions.
 **IMPORTANT:** When you define multiple dimensions, CloudMetrics attaches all of those dimensions to the metric as a single combined dimension set--think of them as an aggregate primary key. For example, if you log a metric with the dimensions `os = 'linux'` and `flavor='ubunutu'` you will only be able to aggregate by **both** `os` and `flavor`. You **cannot** aggregate only by just `os` or just `flavor`. `FluentMetrics` solves this problem by automatically logging three metrics--one for `os`, one for `flavor` and then one for the combied dimensions, giving you maximum flexibility.
