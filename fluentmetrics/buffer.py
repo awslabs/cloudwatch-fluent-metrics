@@ -62,7 +62,7 @@ class BufferedFluentMetric(FluentMetric):
                 FluentMetric._record_metric(self, page)
 
             start = full_pages * PAGE_SIZE
-            end = len(buffer) % PAGE_SIZE
+            end = start + (len(buffer) % PAGE_SIZE)
             if send_partial:
                 # ship remaining items
                 page = buffer[start:end]
