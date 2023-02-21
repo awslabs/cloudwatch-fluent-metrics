@@ -3,10 +3,10 @@
 
 
 import arrow
-import time
 from fluentmetrics import FluentMetric
 import mock
 from moto import mock_cloudwatch
+import time
 
 
 @mock_cloudwatch
